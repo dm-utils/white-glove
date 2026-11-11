@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "_note": "White Glove rules (phase 2). Units: milli-tiles, ticks (30/s). Seats: team = seat % 2 (0 blue, left; 1 orange, right). Litter kinds: 0 paper, 1 plastic, 2 rest.",
+  "tick_rate": 30,
+  "players": 6,
+  "map": "wijk",
+  "match_ticks": 5400,
+  "radius": 400,
+  "speed": { "hero": 125, "crook": 112, "crook_flee": 118, "helper": 105 },
+  "reach": 900,
+  "bin_reach": 1300,
+  "carry_max": 5,
+  "action_cooldown_ticks": 6,
+  "crooks": { "start": 2, "max": 6, "every_ticks": 900, "drop_every_ticks": 80, "flee_range": 3500, "help_ticks": 600, "respawn_ticks": 150 },
+  "litter": { "max": 80, "start": 12, "wind_every_ticks": 60, "wind_step": 220 },
+  "points": { "catch": 5, "right_bin": 2, "wrong_bin": 1, "helper_pick": 1 },
+  "tricks": {
+    "cooldown_ticks": 600,
+    "runner": { "ticks": 60, "speed_pct": 165 },
+    "netter": { "range": 3200 },
+    "whistler": { "range": 4000, "freeze_ticks": 60 },
+    "dogwalker": { "range": 6500, "hold_ticks": 45 }
+  }
+}

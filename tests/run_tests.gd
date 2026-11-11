@@ -30,6 +30,7 @@ func _ready() -> void:
 	test_perf_meter()
 	test_characters_and_result()
 	test_room_codes()
+	test_clean_sim()
 	print("tests: %d passed, %d failed" % [_passed, _failed])
 	get_tree().quit(1 if _failed > 0 else 0)
 
@@ -404,3 +405,183 @@ func test_room_codes() -> void:
 	check(ok, "room codes: 4 characters, no look-alikes")
 	var OS_ := preload("res://ui/online_screen.gd")
 	check(OS_.clean_code("k7pq") == "K7PQ" and OS_.clean_code(" k-7 p q x") == "K7PQ" and OS_.clean_code("o1il") == "", "typed codes: capitals, look-alikes dropped, at most 4")
+
+
+## White Glove (phase 2): teams, catching, picking up, bins (right and wrong), carrying, helpers, wind, tricks, the
+## end, determinism, rollback and a light balance check.
+func test_clean_sim() -> void:
+	var m := CleanMatch.create(12, "runner", 6, "normal")
+	var s := m.sim
+	check(s.ents.map(func(h): return h.team) == [0, 1, 0, 1, 0, 1], "teams alternate by seat")
+	check(s.crooks.size() == int(s.rules.crooks.start) and s.litter.size() == int(s.rules.litter.start), "the match starts with crooks and some litter")
+	var idle: Array = []
+	for i in 6:
+		idle.append({})
+	var me: CleanSim.Hero = s.ents[0]
+	var act := idle.duplicate(true)
+	act[0] = {"a": 0}
+	# pick up: litter in reach goes into your hands
+	s.litter.clear()
+	for c in s.crooks:
+		c.x = 20000
+		c.y = 2500
+		c.freeze = 100000
+	var l := CleanSim.Litter.new()
+	l.kind = 1
+	l.x = me.x + 500
+	l.y = me.y
+	s.litter.append(l)
+	s.step(act)
+	check(me.carry_1 == 1 and s.litter.is_empty(), "the action picks up litter in reach")
+	# bins: the right bin gives 2 per piece, a wrong one 1
+	me.carry_0 = 2
+	me.cooldown = 0
+	var st: Array = s.stations[0]
+	me.x = st[0] + 1 * CleanSim.TILE # the plastic bin
+	me.y = st[1]
+	var before := s.score_0
+	s.step(act)
+	check(s.score_0 - before == 2 * 1 + 1 * 2 and s.carried(me) == 0, "at the plastic bin: plastic 2 points, paper 1 (wrong bin), hands empty")
+	# carrying has a limit
+	me.carry_2 = int(s.rules.carry_max)
+	me.cooldown = 0
+	me.x = 20000
+	me.y = 12500
+	var l2 := CleanSim.Litter.new()
+	l2.kind = 0
+	l2.x = me.x + 300
+	l2.y = me.y
+	s.litter.append(l2)
+	s.step(act)
+	check(s.litter.size() == 1 and me.carry_0 == 0, "full hands pick up nothing")
+	me.carry_2 = 0
+	# catching: a crook in reach is caught, helps the team, then leaves
+	var c: CleanSim.Crook = s.crooks[0]
+	c.freeze = 0
+	c.x = me.x + 600
+	c.y = me.y
+	me.cooldown = 0
+	before = s.score_0
+	s.step(act)
+	check(c.state == CleanSim.HELP and c.team == 0 and me.catches == 1 and s.score_0 - before >= int(s.rules.points.catch), "a crook in reach is caught (+5) and helps blue (it may pick up right away)")
+	var l3 := CleanSim.Litter.new()
+	l3.kind = 2
+	l3.x = c.x + 300
+	l3.y = c.y
+	s.litter.append(l3)
+	before = s.score_0
+	for i in 5:
+		s.step(idle)
+	check(s.score_0 > before, "the helping crook picks up litter for blue")
+	c.timer = 1
+	s.step(idle)
+	check(c.state == CleanSim.AWAY, "after its help time the crook leaves for a while")
+	# wind: paper moves, plastic stays
+	s.litter.clear()
+	var paper := CleanSim.Litter.new()
+	paper.kind = 0
+	paper.x = 20000
+	paper.y = 12500
+	var plastic := CleanSim.Litter.new()
+	plastic.kind = 1
+	plastic.x = 20000
+	plastic.y = 12500
+	s.litter.append(paper)
+	s.litter.append(plastic)
+	var px := paper.x
+	var py := paper.y
+	while s.tick % int(s.rules.litter.wind_every_ticks) != 0:
+		s.step(idle)
+	check((paper.x != px or paper.y != py) and plastic.x == 20000 and plastic.y == 12500, "the wind blows paper along, plastic stays")
+	# tricks: the netter catches at a distance in the aimed direction, the whistler freezes crooks around
+	var m2 := CleanMatch.create(5, "netter", 6, "normal")
+	var s2 := m2.sim
+	var n: CleanSim.Hero = s2.ents[0]
+	var k: CleanSim.Crook = s2.crooks[0]
+	n.x = 20000
+	n.y = 12500
+	k.x = 22500
+	k.y = 12500
+	k.freeze = 1000
+	var trick := idle.duplicate(true)
+	trick[0] = {"s": 0}
+	s2.step(trick)
+	check(k.state == CleanSim.HELP and n.catches == 1, "netter: the net catches a crook 2.5 tiles away")
+	var m3 := CleanMatch.create(5, "whistler", 6, "normal")
+	var s3 := m3.sim
+	var w: CleanSim.Hero = s3.ents[0]
+	var k3: CleanSim.Crook = s3.crooks[0]
+	w.x = 20000
+	w.y = 12500
+	k3.x = 23000
+	k3.y = 12500
+	s3.step(trick)
+	check(k3.freeze > 0, "whistler: crooks nearby freeze")
+	# the end: after 3 minutes, places by team score
+	s.tick = int(s.rules.match_ticks) - 1
+	s.score_0 = 10
+	s.score_1 = 4
+	s.step(idle)
+	var r := m.human_result()
+	check(m.finished() and r.outcome == "won" and r.place == 1 and r.score == [10, 4], "after 3 minutes the higher team score wins (%s)" % str(r))
+
+	# determinism and snapshot/restore
+	var a := CleanMatch.create(77, "", 6, "normal")
+	var b := CleanMatch.create(77, "", 6, "normal")
+	for i in 2000:
+		a.step()
+		b.step()
+	check(a.sim.state_hash() == b.sim.state_hash(), "White Glove: same seed -> same state")
+	var snap := a.sim.snapshot()
+	for i in 1500:
+		a.step()
+	var cm := CleanMatch.create(77, "", 6, "normal")
+	cm.sim.restore(snap)
+	for i in 1500:
+		cm.step()
+	check(a.sim.state_hash() == cm.sim.state_hash() and a.sim.score_0 == cm.sim.score_0, "White Glove: snapshot + restore continues identically")
+
+	# rollback: 4 screens with lag end identical to the reference
+	var heroes := ["runner", "netter", "whistler", "dogwalker"]
+	var clients: Array = []
+	for i in 4:
+		clients.append(Rollback.new(CleanMatch.create_online(4242, heroes, 6, "normal"), i))
+	var net := RandomNumberGenerator.new()
+	net.seed = 11
+	var flight: Array = []
+	var ticks := 900
+	var stp := 0
+	while clients.any(func(cl): return cl.tick < ticks) and stp < ticks * 4:
+		stp += 1
+		for msg in flight.filter(func(x): return x[0] <= stp):
+			clients[msg[1]].remote_input(msg[2], msg[3], msg[4])
+		flight = flight.filter(func(x): return x[0] > stp)
+		for i in 4:
+			var cl: Rollback = clients[i]
+			if cl.tick >= ticks or not cl.can_advance():
+				continue
+			cl.local_input([(stp * 61 + i * 900) % 4096, 0 if stp % 7 == 0 else -1, 0 if stp % 400 == 0 else -1, -1])
+			for out in cl.outbox:
+				for j in 4:
+					if j != i:
+						flight.append([stp + net.randi_range(1, 7), j, i, out[0], out[1]])
+			cl.outbox.clear()
+			cl.advance()
+	for msg in flight:
+		clients[msg[1]].remote_input(msg[2], msg[3], msg[4])
+	var hashes: Array = clients.map(func(cl): return cl.settle())
+	var inputs: Dictionary = clients[0].confirmed_inputs(ticks)
+	var ref := CleanMatch.create_online(4242, heroes, 6, "normal")
+	for t in ticks:
+		var cmds := {}
+		for st2 in ref.humans:
+			cmds[st2] = inputs[st2][t]
+		ref.step_many(cmds)
+	var rbs: int = clients.reduce(func(acc, cl): return acc + cl.rollbacks, 0)
+	check(hashes.all(func(h): return h == ref.sim.state_hash()), "White Glove rollback: 4 screens with lag end identical to the reference (%d rollbacks)" % rbs)
+	check(rbs > 0, "White Glove rollback: predictions really were corrected")
+
+	var bal := CleanBalanceRunner.run(6, "normal", 3)
+	print("clean: light balance, 6 matches: blue %.0f %%, litter left %.0f %%" % [bal.blue_pct, bal.left_pct])
+	check(bal.left_pct < 40.0, "bots keep the street fairly clean (%.0f %% left)" % bal.left_pct)
+

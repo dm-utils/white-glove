@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "_note": "White Glove hero bots: think_ticks = reaction time, chase_range = how far the chaser looks for crooks, trick_pct = chance per tick to use the trick when close.",
+  "levels": {
+    "easy":   { "think_ticks": 14, "chase_range": 8000,  "trick_pct": 2 },
+    "normal": { "think_ticks": 9,  "chase_range": 12000, "trick_pct": 4 },
+    "hard":   { "think_ticks": 6,  "chase_range": 16000, "trick_pct": 6 }
+  }
+}
