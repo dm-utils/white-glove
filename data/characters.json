@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "_note": "White Glove heroes (functional design 5). Art from tools/art/people.py.",
+  "characters": [
+    {
+      "id": "runner",
+      "name_key": "CHAR_RUNNER",
+      "color": "3F8CFF"
+    },
+    {
+      "id": "netter",
+      "name_key": "CHAR_NETTER",
+      "color": "FF8A3D"
+    },
+    {
+      "id": "whistler",
+      "name_key": "CHAR_WHISTLER",
+      "color": "5BD66B"
+    },
+    {
+      "id": "dogwalker",
+      "name_key": "CHAR_DOGWALKER",
+      "color": "B36BD6"
+    }
+  ]
+}
