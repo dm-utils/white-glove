@@ -1,5 +1,7 @@
 {
   "version": 1,
-  "_note": "Seasons: a second free path each; dates UTC, inclusive (phase 5).",
-  "seasons": []
+  "_note": "Seasons: one match in the season earns its thing for your street (kept afterwards). Dates UTC, inclusive (phase 5).",
+  "seasons": [
+    { "id": "winter-2026", "start": "2026-12-01", "end": "2027-02-28", "name_key": "SEASON_WINTER", "item": { "id": "snowman", "name_key": "STREET_SNOWMAN", "x": 0.86, "y": 0.58 } }
+  ]
 }

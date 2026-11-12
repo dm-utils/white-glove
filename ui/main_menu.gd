@@ -47,6 +47,16 @@ func _ready() -> void:
 			b.theme_type_variation = "PlayButton"
 		b.pressed.connect(_open.bind({"MENU_PLAY": "game", "MENU_ONLINE": "online", "MENU_SETTINGS": "settings"}[key]))
 		box.add_child(b)
+	# your own street sits in the corner, so the main column (and the Play button) stays where it is
+	var street := Button.new()
+	street.text = tr("MENU_STREET")
+	street.pressed.connect(_open.bind("street"))
+	add_child(street)
+	street.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT)
+	street.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	street.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	street.offset_right = -50
+	street.offset_bottom = -40
 
 
 func _who_text() -> String:

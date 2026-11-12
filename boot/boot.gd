@@ -7,6 +7,7 @@ const SCENES := {
 	"menu": "res://ui/main_menu.tscn",
 	"settings": "res://ui/settings_screen.tscn",
 	"online": "res://ui/online_screen.tscn",
+	"street": "res://ui/my_street_screen.tscn",
 	"game": "res://view/clean_view.tscn",
 }
 

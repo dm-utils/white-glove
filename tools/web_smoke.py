@@ -150,7 +150,8 @@ def main() -> int:
         # Dutch: texts are ~30 % longer, the layouts must still fit (checked by eye in the contact sheet)
         for scene, extra, name in [("menu", "&lang=nl", "web-menu-nl"), ("settings", "&lang=nl", "web-settings-nl"),
                                    ("settings", "&lang=nl&dialog=privacy", "web-privacy-nl"),
-                                   ("game", "&lang=nl", "web-game-nl"), ("online", "&lang=nl", "web-online-nl")]:
+                                   ("game", "&lang=nl", "web-game-nl"), ("online", "&lang=nl", "web-online-nl"),
+                                   ("street", "&lang=nl", "web-street-nl")]:
             load(f"{base}?scene={scene}{extra}", name)
             page.wait_for_timeout(2500)
             shot(page, name)

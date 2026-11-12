@@ -32,6 +32,7 @@ func _ready() -> void:
 	test_room_codes()
 	test_clean_sim()
 	await test_clean_view()
+	await test_street()
 	print("tests: %d passed, %d failed" % [_passed, _failed])
 	get_tree().quit(1 if _failed > 0 else 0)
 
@@ -607,3 +608,30 @@ func test_clean_view() -> void:
 	Boot.args.erase("seed")
 	var R := preload("res://ui/result_screen.gd")
 	check(R.headline({"outcome": "won"}) == TranslationServer.translate("RESULT_WON") and R.headline({"place": 2}).contains("2"), "the result says won/draw/lost, or the place")
+
+
+## Your own street (phase 5): points, things at their counts, the season thing, merge, the screen.
+func test_street() -> void:
+	var nov := Time.get_unix_time_from_datetime_string("2026-11-12T12:00:00")
+	var dec := Time.get_unix_time_from_datetime_string("2026-12-15T12:00:00")
+	var p := {}
+	var a := Street.add_points(p, 60, nov)
+	check(int(p.street_points) == 60 and a.unlocked.size() == 1 and str(a.unlocked[0].id) == "bench" and (a.season_item as Dictionary).is_empty(), "60 street points: a bench, no season outside the dates")
+	var b := Street.add_points(p, -5, nov)
+	check(int(b.earned) == 0 and int(p.street_points) == 60, "never fewer street points")
+	var c := Street.add_points(p, 70, dec)
+	check(c.unlocked.size() == 1 and str(c.unlocked[0].id) == "tree" and str(c.season_item.id) == "snowman", "in winter: the tree at 120 and the snowman")
+	var d := Street.add_points(p, 1, dec)
+	check((d.season_item as Dictionary).is_empty(), "the season thing only once")
+	var have := Street.owned(p).map(func(it: Dictionary) -> String: return str(it.id))
+	check(have == ["bench", "tree", "snowman"], "owned: what the points reached plus the season thing (%s)" % str(have))
+	var m := ProfileMerge.merge({"street_points": 300, "street_items": ["snowman"], "unlocked_characters": ["netter"], "updated_at": "2"},
+		{"street_points": 500, "unlocked_characters": ["whistler"], "updated_at": "1"})
+	check(int(m.street_points) == 500 and m.street_items == ["snowman"] and m.unlocked_characters == ["netter", "whistler"], "merge: street points max, things and heroes united")
+	var S := preload("res://ui/my_street_screen.gd")
+	check(S.summary({"street_points": 130}).contains("130") and S.summary({"street_points": 130}).contains("220"), "the street says your points and the next thing")
+	var v: Node = load("res://ui/my_street_screen.tscn").instantiate()
+	add_child(v)
+	await get_tree().process_frame
+	check(v._street != null, "the street screen opens")
+	v.queue_free()

@@ -1,8 +1,8 @@
 class_name ProfileMerge
 extends RefCounted
 ## Deterministic merge of two profiles (local and server) after a 409:
-##   counters        -> max          (pearls, stats, mastery, write counter)
-##   unlocks         -> union        (animals, owned looks, badges, avatars), sorted
+##   counters        -> max          (pearls, street points, stats, mastery, write counter)
+##   unlocks         -> union        (animals, characters, street things, owned looks, badges, avatars), sorted
 ##   seasons         -> max per season (pearls)
 ##   achievements    -> max tier per id
 ##   choices         -> last writer wins by updated_at (selected animal, equipped looks, settings, name)
@@ -17,10 +17,13 @@ static func merge(local: Dictionary, server: Dictionary) -> Dictionary:
 	var newer: Dictionary = local if str(local.get("updated_at", "")) > str(server.get("updated_at", "")) else server
 	var out := newer.duplicate(true)
 
-	for k in ["pearls_total", "format", "version"]:
+	for k in ["pearls_total", "format", "version", "street_points"]:
 		out[k] = maxi(int(local.get(k, 0)), int(server.get(k, 0)))
 
 	out["unlocked_animals"] = _union(local.get("unlocked_animals", []), server.get("unlocked_animals", []))
+	for k in ["unlocked_characters", "street_items"]:
+		if local.has(k) or server.has(k):
+			out[k] = _union(local.get(k, []), server.get(k, []))
 	out["stats"] = _max_each(local.get("stats", {}), server.get("stats", {}))
 	out["achievements"] = _max_each(local.get("achievements", {}), server.get("achievements", {}))
 

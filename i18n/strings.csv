@@ -150,3 +150,18 @@ RESULT_LOST,Lost. Next time!,Verloren. Volgende keer!
 RESULT_SCORE,Blue {blue} – {orange} Orange,Blauw {blue} – {orange} Oranje
 ONLINE_FRIENDS_TITLE,Play with friends,Spelen met vrienden
 ONLINE_FRIENDS_HINT,Make a room and tell your friends the code · or type their code,Maak een kamer en geef je vrienden de code · of typ hun code
+MENU_STREET,My street,Mijn wijk
+STREET_TITLE,My street,Mijn wijk
+STREET_POINTS,{count} street points,{count} wijkpunten
+STREET_NEXT,next: {name} at {at},volgende: {name} bij {at}
+STREET_BENCH,a bench,een bankje
+STREET_TREE,a tree,een boom
+STREET_FLOWERS,a flower box,een bloembak
+STREET_LAMP,a street lamp,een lantaarnpaal
+STREET_SWING,a swing,een schommel
+STREET_FOUNTAIN,a fountain,een fontein
+STREET_SLIDE,a slide,een glijbaan
+STREET_SNOWMAN,a snowman,een sneeuwpop
+SEASON_WINTER,Winter,Winter
+RESULT_STREET_POINTS,+{count} street points,+{count} wijkpunten
+RESULT_STREET_NEW,New in your street: {name}!,Nieuw in je wijk: {name}!
