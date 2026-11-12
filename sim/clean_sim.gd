@@ -199,13 +199,19 @@ func _update_hero(h: Hero, cmd: Dictionary) -> void:
 		_trick(h, posmod(s, Fx.ANGLES))
 
 
-## Moves with walls: each axis on its own, so you slide along a house.
+## Moves with walls: each axis on its own, so you slide along a house. A body is `radius` wide to each side (so the
+## sprite never stands half inside a house), only a little behind the feet when walking up to a house's front wall.
 func _move(o, ang: int, sp: int) -> void:
-	var nx: int = o.x + Fx.cos_a(ang) * sp / Fx.ONE
-	var ny: int = o.y + Fx.sin_a(ang) * sp / Fx.ONE
-	if walkable(nx, o.y):
+	var r := int(rules.radius)
+	var dx: int = Fx.cos_a(ang) * sp / Fx.ONE
+	var dy: int = Fx.sin_a(ang) * sp / Fx.ONE
+	var nx: int = o.x + dx
+	var ny: int = o.y + dy
+	var ex := signi(dx) * r
+	if dx != 0 and walkable(nx + ex, o.y) and walkable(nx + ex, o.y - r / 2):
 		o.x = clampi(nx, 500, width * TILE - 500)
-	if walkable(o.x, ny):
+	var ey := r if dy < 0 else r / 4
+	if dy != 0 and walkable(o.x, ny + signi(dy) * ey) and walkable(o.x - r, ny + signi(dy) * ey) and walkable(o.x + r, ny + signi(dy) * ey):
 		o.y = clampi(ny, 500, height * TILE - 500)
 
 
@@ -356,7 +362,8 @@ func _new_goal(c: Crook) -> void:
 	for i in 20:
 		var x := 1000 + rng.range_i((width - 2) * TILE)
 		var y := 1000 + rng.range_i((height - 2) * TILE)
-		if walkable(x, y):
+		var r := int(rules.radius)
+		if walkable(x, y) and walkable(x - r, y - r) and walkable(x + r, y - r) and walkable(x - r, y + r) and walkable(x + r, y + r):
 			c.goal_x = x
 			c.goal_y = y
 			return
