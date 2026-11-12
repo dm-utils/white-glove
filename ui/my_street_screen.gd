@@ -80,12 +80,16 @@ func _ready() -> void:
 
 
 ## "340 street points · next: a tree at 120" (pure, tested).
-static func summary(p: Dictionary) -> String:
+static func summary(p: Dictionary, unix: float = Time.get_unix_time_from_system()) -> String:
 	var pts := int(p.get("street_points", 0))
 	var text := TranslationServer.translate("STREET_POINTS").format({"count": pts})
 	var w := Rewards.walk(Street.items(), pts, pts)
 	if not (w.next as Dictionary).is_empty():
 		text += " · " + TranslationServer.translate("STREET_NEXT").format({"name": TranslationServer.translate(str(w.next.name_key)), "at": int(w.next.at)})
+	var s := Season.active(unix)
+	if not s.is_empty() and s.has("item") and not (p.get("street_items", []) as Array).has(str(s.item.id)):
+		text += "
+" + TranslationServer.translate("STREET_SEASON").format({"season": TranslationServer.translate(str(s.name_key)), "name": TranslationServer.translate(str(s.item.name_key))})
 	return text
 
 

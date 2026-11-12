@@ -635,6 +635,13 @@ func test_street() -> void:
 	check(int(Daily.plan(nov).seed) == Daily.seed_for(day) and str(Daily.plan(nov).daily) == day, "the daily plan carries the seed and the day")
 	var S := preload("res://ui/my_street_screen.gd")
 	check(S.summary({"street_points": 130}).contains("130") and S.summary({"street_points": 130}).contains("220"), "the street says your points and the next thing")
+	check(S.summary({"street_points": 130}, dec).contains(TranslationServer.translate("STREET_SNOWMAN")) and not S.summary({"street_points": 130, "street_items": ["snowman"]}, dec).contains(TranslationServer.translate("STREET_SNOWMAN")), "in a season the street tells you what to play for, until you have it")
+	var seasons := Season.all()
+	var apart := true
+	for i in range(1, seasons.size()):
+		apart = apart and str(seasons[i].start) > str(seasons[i - 1].end)
+	check(apart and seasons.all(func(s): return s.has("item") and FileAccess.file_exists("res://assets/props/deco_%s.svg" % str(s.item.id))), "seasons never overlap and each has its art")
+	check(Street.items().all(func(it): return FileAccess.file_exists("res://assets/props/deco_%s.svg" % str(it.id))), "every street thing has its art")
 	var v: Node = load("res://ui/my_street_screen.tscn").instantiate()
 	add_child(v)
 	await get_tree().process_frame

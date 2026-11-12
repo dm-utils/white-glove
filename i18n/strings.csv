@@ -169,3 +169,10 @@ MENU_DAILY,Daily challenge,Daguitdaging
 MENU_DAILY_DONE,Daily challenge (done),Daguitdaging (gedaan)
 DAILY_START,The cleanest street of today!,De schoonste straat van vandaag!
 RESULT_DAILY_BONUS,daily challenge +{count},daguitdaging +{count}
+SEASON_KINGSDAY,King's Day,Koningsdag
+SEASON_SUMMER,Summer,Zomer
+SEASON_FAIR,The fair,Kermis
+STREET_FLAGS,orange flags,oranje vlaggetjes
+STREET_PARASOL,a beach umbrella,een parasol
+STREET_CANDYFLOSS,a candy floss stall,een suikerspinkraam
+STREET_SEASON,Now: {season} · play one match for {name},Nu: {season} · speel één potje voor {name}
