@@ -2,9 +2,53 @@
   "version": 1,
   "_note": "Seasons: one match in the season earns its thing for your street (kept afterwards). Dates UTC, inclusive, never overlapping (phase 5).",
   "seasons": [
-    { "id": "winter-2026", "start": "2026-12-01", "end": "2027-02-28", "name_key": "SEASON_WINTER", "item": { "id": "snowman", "name_key": "STREET_SNOWMAN", "x": 0.86, "y": 0.58 } },
-    { "id": "kingsday-2027", "start": "2027-04-20", "end": "2027-05-05", "name_key": "SEASON_KINGSDAY", "item": { "id": "flags", "name_key": "STREET_FLAGS", "x": 0.3, "y": 0.92 } },
-    { "id": "summer-2027", "start": "2027-07-01", "end": "2027-08-31", "name_key": "SEASON_SUMMER", "item": { "id": "parasol", "name_key": "STREET_PARASOL", "x": 0.68, "y": 0.92 } },
-    { "id": "fair-2027", "start": "2027-09-15", "end": "2027-10-31", "name_key": "SEASON_FAIR", "item": { "id": "candyfloss", "name_key": "STREET_CANDYFLOSS", "x": 0.07, "y": 0.92 } }
+    {
+      "id": "winter-2026",
+      "start": "2026-12-01",
+      "end": "2027-02-28",
+      "name_key": "SEASON_WINTER",
+      "item": {
+        "id": "snowman",
+        "name_key": "STREET_SNOWMAN",
+        "x": 0.34,
+        "y": 0.92
+      }
+    },
+    {
+      "id": "kingsday-2027",
+      "start": "2027-04-20",
+      "end": "2027-05-05",
+      "name_key": "SEASON_KINGSDAY",
+      "item": {
+        "id": "flags",
+        "name_key": "STREET_FLAGS",
+        "x": 0.66,
+        "y": 0.92
+      }
+    },
+    {
+      "id": "summer-2027",
+      "start": "2027-07-01",
+      "end": "2027-08-31",
+      "name_key": "SEASON_SUMMER",
+      "item": {
+        "id": "parasol",
+        "name_key": "STREET_PARASOL",
+        "x": 0.07,
+        "y": 0.92
+      }
+    },
+    {
+      "id": "fair-2027",
+      "start": "2027-09-15",
+      "end": "2027-10-31",
+      "name_key": "SEASON_FAIR",
+      "item": {
+        "id": "candyfloss",
+        "name_key": "STREET_CANDYFLOSS",
+        "x": 0.93,
+        "y": 0.92
+      }
+    }
   ]
 }

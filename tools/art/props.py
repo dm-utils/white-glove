@@ -114,7 +114,7 @@ PROPS = {
                    f'<path d="M56 150 V50 M144 150 V50" fill="none" stroke="{INK}" stroke-width="8" stroke-linecap="round"/>',
                    f'<path d="M56 56 Q100 80 144 56" fill="none" stroke="{INK}" stroke-width="3"/>',
                    f'<path d="M64 60 L74 84 L82 64 Z M92 68 L100 92 L108 69 Z M118 64 L126 84 L136 60 Z" fill="#FF8A3D" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/>',
-                   f'<path d="M86 104 L92 92 L100 102 L108 92 L114 104 Z" fill="#FFD23F" {S}/>'],
+                   f'<path d="M78 120 L84 94 L100 110 L116 94 L122 120 Z" fill="#FFD23F" stroke="{INK}" stroke-width="4" stroke-linejoin="round"/>'],
     "deco_parasol": [shadow(56),
                      f'<path d="M100 150 V60" fill="none" stroke="{INK}" stroke-width="7" stroke-linecap="round"/>',
                      f'<path d="M36 74 Q100 10 164 74 Z" fill="#FFFFFF" {S}/>',

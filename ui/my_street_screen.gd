@@ -1,6 +1,6 @@
 extends Control
 ## My street (phase 5): the things your street got from cleaning up (street points), what comes next, and your
-## mastery per hero. Show only. Debug entry: --scene=street
+## mastery per hero. Show only. Debug entry: --scene=street [--street_points=600 --street_items=snowman]
 
 const INK := Color("2B3A4A")
 const ART := "res://assets/props/deco_%s.svg"
@@ -18,6 +18,10 @@ func _ready() -> void:
 	add_child(bg)
 	bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var p: Dictionary = Platform.load_profile()
+	if Boot.args.has("street_points"): # debug/promo shots: show a street without saving anything
+		p = p.duplicate(true)
+		p["street_points"] = int(Boot.args.street_points)
+		p["street_items"] = str(Boot.args.get("street_items", "")).split(",", false)
 	var pts := int(p.get("street_points", 0))
 
 	var box := VBoxContainer.new()
