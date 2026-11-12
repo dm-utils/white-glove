@@ -57,6 +57,18 @@ func _ready() -> void:
 	street.grow_vertical = Control.GROW_DIRECTION_BEGIN
 	street.offset_right = -50
 	street.offset_bottom = -40
+	# the daily challenge in the other corner: the same street for everyone today, bonus once a day
+	var daily := Button.new()
+	var today := Daily.today(Time.get_unix_time_from_system())
+	daily.text = tr("MENU_DAILY_DONE") if Daily.done(Platform.load_profile(), today) else tr("MENU_DAILY")
+	daily.pressed.connect(func() -> void:
+		Boot.next_match = Daily.plan(Time.get_unix_time_from_system())
+		_open("game"))
+	add_child(daily)
+	daily.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_LEFT)
+	daily.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	daily.offset_left = 50
+	daily.offset_bottom = -40
 
 
 func _who_text() -> String:

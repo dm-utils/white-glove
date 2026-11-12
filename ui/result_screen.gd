@@ -26,7 +26,10 @@ func _ready() -> void:
 	for rew in outcome.unlocked:
 		box.add_child(_label(tr("RESULT_UNLOCKED").format({"name": tr(str(rew.name_key))}), UiTheme.heading(40, UiTheme.GOLD, 8)))
 	var st: Dictionary = outcome.street
-	box.add_child(_label(tr("RESULT_STREET_POINTS").format({"count": int(st.earned)}), UiTheme.heading(40, UiTheme.INK, 0)))
+	var street_line := tr("RESULT_STREET_POINTS").format({"count": int(st.earned)})
+	if int(st.daily_bonus) > 0:
+		street_line += " · " + tr("RESULT_DAILY_BONUS").format({"count": int(st.daily_bonus)})
+	box.add_child(_label(street_line, UiTheme.heading(40, UiTheme.INK, 0)))
 	for it in st.unlocked + ([st.season_item] if not (st.season_item as Dictionary).is_empty() else []):
 		box.add_child(_label(tr("RESULT_STREET_NEW").format({"name": tr(str(it.name_key))}), UiTheme.heading(40, UiTheme.GOLD, 8)))
 	var row := HBoxContainer.new()
@@ -85,6 +88,8 @@ static func apply_result(r: Dictionary) -> Dictionary:
 	var w := Rewards.walk(path.rewards, before, before + earned)
 	for rew in w.unlocked:
 		Rewards.grant(p, rew)
-	var street := Street.add_points(p, int(r.get("points", 0)), Time.get_unix_time_from_system())
+	var bonus := Daily.claim(p, str(r.get("daily", "")))
+	var street := Street.add_points(p, int(r.get("points", 0)) + bonus, Time.get_unix_time_from_system())
+	street["daily_bonus"] = bonus
 	Platform.save_profile(p)
 	return {"earned": earned, "before": before, "after": before + earned, "unlocked": w.unlocked, "street": street}

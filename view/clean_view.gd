@@ -58,6 +58,7 @@ var _ending := -1.0
 var _msg := ""
 var _msg_t := 0.0
 var _warned := false
+var _daily := "" # the day of the daily challenge, "" = a normal match
 var _my_carry := [0, 0, 0]
 var _online_started := false
 var _next_hash := Rollback.HASH_EVERY - 1
@@ -66,13 +67,16 @@ var _next_hash := Rollback.HASH_EVERY - 1
 func _ready() -> void:
 	Platform.entered("game")
 	var profile: Dictionary = Platform.load_profile()
+	var plan: Dictionary = Boot.next_match
+	Boot.next_match = {}
 	var seed_value := Boot.seed_value() if Boot.seed_value() != 0 else randi() % 2000000000 + 1
+	if plan.has("seed"): # the daily challenge: the same street for everyone today
+		seed_value = int(plan.seed)
+	_daily = str(plan.get("daily", ""))
 	var who := str(Boot.args.get("character", profile.get("selected_character", "runner")))
 	if not CleanMatch.HEROES.has(who):
 		who = "runner"
 	m = CleanMatch.create(seed_value, who, 6, str(Boot.args.get("bots", "normal")))
-	var plan: Dictionary = Boot.next_match
-	Boot.next_match = {}
 	if plan.has("online"):
 		_start_online(plan.online)
 	var s := m.sim
@@ -116,7 +120,7 @@ func _ready() -> void:
 	_sync_sprites()
 	_update_hud()
 	if rb == null:
-		_say(tr("CLEAN_START"), 2.2)
+		_say(tr("DAILY_START") if _daily != "" else tr("CLEAN_START"), 2.2)
 		Sfx.play("whistle")
 
 
@@ -166,6 +170,8 @@ func _process(delta: float) -> void:
 			if net != null:
 				net.close()
 			Boot.last_result = m.human_result()
+			if _daily != "":
+				Boot.last_result["daily"] = _daily
 			get_tree().change_scene_to_file(RESULT_SCENE)
 			return
 	for k in _hop.keys():

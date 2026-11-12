@@ -165,3 +165,7 @@ STREET_SNOWMAN,a snowman,een sneeuwpop
 SEASON_WINTER,Winter,Winter
 RESULT_STREET_POINTS,+{count} street points,+{count} wijkpunten
 RESULT_STREET_NEW,New in your street: {name}!,Nieuw in je wijk: {name}!
+MENU_DAILY,Daily challenge,Daguitdaging
+MENU_DAILY_DONE,Daily challenge (done),Daguitdaging (gedaan)
+DAILY_START,The cleanest street of today!,De schoonste straat van vandaag!
+RESULT_DAILY_BONUS,daily challenge +{count},daguitdaging +{count}

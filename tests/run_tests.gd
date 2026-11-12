@@ -628,6 +628,11 @@ func test_street() -> void:
 	var m := ProfileMerge.merge({"street_points": 300, "street_items": ["snowman"], "unlocked_characters": ["netter"], "updated_at": "2"},
 		{"street_points": 500, "unlocked_characters": ["whistler"], "updated_at": "1"})
 	check(int(m.street_points) == 500 and m.street_items == ["snowman"] and m.unlocked_characters == ["netter", "whistler"], "merge: street points max, things and heroes united")
+	var day := Daily.today(nov)
+	check(day == "2026-11-12" and Daily.seed_for(day) == Daily.seed_for("2026-11-12") and Daily.seed_for(day) != Daily.seed_for("2026-11-13") and Daily.seed_for(day) > 0, "daily: one seed per UTC day")
+	var q := {}
+	check(Daily.claim(q, day) == 50 and Daily.done(q, day) and Daily.claim(q, day) == 0 and Daily.claim(q, "") == 0, "daily bonus once per day, never for a normal match")
+	check(int(Daily.plan(nov).seed) == Daily.seed_for(day) and str(Daily.plan(nov).daily) == day, "the daily plan carries the seed and the day")
 	var S := preload("res://ui/my_street_screen.gd")
 	check(S.summary({"street_points": 130}).contains("130") and S.summary({"street_points": 130}).contains("220"), "the street says your points and the next thing")
 	var v: Node = load("res://ui/my_street_screen.tscn").instantiate()

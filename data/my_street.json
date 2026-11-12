@@ -1,13 +1,56 @@
 {
   "version": 1,
-  "_note": "Your own street (phase 5): things appear at a number of street points (your own points from every match). Show only, never power. x/y = spot in the street picture (0..1). Season things come from data/seasons.json.",
+  "_note": "Your own street (phase 5): things appear at a number of street points (your own points from every match). Show only, never power. x/y = spot in the street picture (0..1). Season things come from data/seasons.json. daily_bonus: extra street points for the first daily challenge of a day.",
   "items": [
-    { "id": "bench", "at": 50, "name_key": "STREET_BENCH", "x": 0.16, "y": 0.78 },
-    { "id": "tree", "at": 120, "name_key": "STREET_TREE", "x": 0.32, "y": 0.62 },
-    { "id": "flowers", "at": 220, "name_key": "STREET_FLOWERS", "x": 0.5, "y": 0.8 },
-    { "id": "lamp", "at": 350, "name_key": "STREET_LAMP", "x": 0.66, "y": 0.64 },
-    { "id": "swing", "at": 500, "name_key": "STREET_SWING", "x": 0.84, "y": 0.78 },
-    { "id": "fountain", "at": 700, "name_key": "STREET_FOUNTAIN", "x": 0.5, "y": 0.56 },
-    { "id": "slide", "at": 1000, "name_key": "STREET_SLIDE", "x": 0.12, "y": 0.58 }
-  ]
+    {
+      "id": "bench",
+      "at": 50,
+      "name_key": "STREET_BENCH",
+      "x": 0.16,
+      "y": 0.78
+    },
+    {
+      "id": "tree",
+      "at": 120,
+      "name_key": "STREET_TREE",
+      "x": 0.32,
+      "y": 0.62
+    },
+    {
+      "id": "flowers",
+      "at": 220,
+      "name_key": "STREET_FLOWERS",
+      "x": 0.5,
+      "y": 0.8
+    },
+    {
+      "id": "lamp",
+      "at": 350,
+      "name_key": "STREET_LAMP",
+      "x": 0.66,
+      "y": 0.64
+    },
+    {
+      "id": "swing",
+      "at": 500,
+      "name_key": "STREET_SWING",
+      "x": 0.84,
+      "y": 0.78
+    },
+    {
+      "id": "fountain",
+      "at": 700,
+      "name_key": "STREET_FOUNTAIN",
+      "x": 0.5,
+      "y": 0.56
+    },
+    {
+      "id": "slide",
+      "at": 1000,
+      "name_key": "STREET_SLIDE",
+      "x": 0.12,
+      "y": 0.58
+    }
+  ],
+  "daily_bonus": 50
 }
