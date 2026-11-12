@@ -13,6 +13,8 @@ var _delete: Button
 var _delete_armed := 0.0
 var _privacy_status: Label
 const PRIVACY_PARAGRAPHS := 7
+## A children's game: no sign-in (FO §8, TO: profile only on the device). The code stays for a later parent code.
+const SIGN_IN := false
 
 
 func _ready() -> void:
@@ -120,7 +122,7 @@ func _ready() -> void:
 	sound.custom_minimum_size = Vector2(420, 48)
 	sound.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	sound.value_changed.connect(func(v: float) -> void: Sfx.set_volume(int(v)))
-	sound.drag_ended.connect(func(_changed: bool) -> void: Sfx.play("snack"))
+	sound.drag_ended.connect(func(_changed: bool) -> void: Sfx.play("tap"))
 	sound_row.add_child(sound)
 
 	# account
@@ -236,6 +238,8 @@ func _show_account() -> void:
 		_account.move_child(_status, -1)
 		return
 	_add_label(tr("ACCOUNT_GUEST"))
+	if not SIGN_IN:
+		return
 	_add_label(tr("SIGNIN_EMAIL_HINT"))
 	_email_edit = LineEdit.new()
 	_email_edit.placeholder_text = tr("SIGNIN_EMAIL_PLACEHOLDER")

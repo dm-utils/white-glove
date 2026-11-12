@@ -16,7 +16,7 @@ SETTINGS_CONTROLS,Controls (PC),Besturing (pc)
 CONTROLS_KEYS,Keyboard only (auto-aim),Alleen toetsenbord (richt zelf)
 CONTROLS_MOUSE,Keyboard + mouse aim,Toetsenbord + muis richten
 SETTINGS_ACCOUNT,Account,Account
-ACCOUNT_GUEST,Playing as guest — your progress is only on this device.,Je speelt als gast — je voortgang staat alleen op dit apparaat.
+ACCOUNT_GUEST,Your progress stays on this device. No account needed.,Je voortgang blijft op dit apparaat. Een account is niet nodig.
 ACCOUNT_SIGNED_IN,Signed in as {email},Ingelogd als {email}
 ACCOUNT_SIGN_OUT,Sign out,Uitloggen
 ACCOUNT_SIGN_OUT_ALL,Sign out everywhere,Overal uitloggen
@@ -42,7 +42,7 @@ REPORT_HOTKEY,Tip: press F8 anywhere to report what you see.,Tip: druk overal op
 REPORT_CATEGORY_BUG,Bug,Fout
 REPORT_CATEGORY_IDEA,Idea,Idee
 REPORT_CATEGORY_OTHER,Other,Anders
-REPORT_TEXT_PLACEHOLDER,What happened? What did you expect?,Wat gebeurde er? Wat had je verwacht?
+REPORT_TEXT_PLACEHOLDER,"What happened? (no name or address, please)",Wat gebeurde er? (geen naam of adres)
 REPORT_ATTACH_SCREENSHOT,Add a screenshot of this moment,Schermafbeelding van dit moment toevoegen
 REPORT_ATTACH_SAVE,Add my save (helps us reproduce it),Mijn save toevoegen (helpt ons het na te spelen)
 REPORT_SEND,Send,Versturen
@@ -97,13 +97,13 @@ PRIVACY_GATHERING,Gathering your data…,Je gegevens verzamelen…
 PRIVACY_SAVED_AT,Saved: {path},Opgeslagen: {path}
 PRIVACY_SAVED_WEB,Your browser is downloading the file.,Je browser downloadt het bestand.
 PRIVACY_PARTIAL,Not every service answered; try again later for a complete file.,Niet elke dienst antwoordde; probeer het later opnieuw voor een volledig bestand.
-PRIVACY_P1,"White Glove keeps your progress on this device. Without an account nothing about you leaves the device, except anonymous crash reports (no name, no address, no IP address).","White Glove bewaart je voortgang op dit apparaat. Zonder account verlaat niets over jou het apparaat, behalve anonieme crashmeldingen (geen naam, geen adres, geen IP-adres)."
-PRIVACY_P2,"With an account we keep: your e-mail address (to send you sign-in codes), your cloud save and your sign-in sessions.","Met een account bewaren we: je e-mailadres (om je inlogcodes te sturen), je cloud-save en je inlogsessies."
-PRIVACY_P3,"On the leaderboards you appear under a pseudonym, never your e-mail: your scores, your generated name, favourite character, mastery and collection, your friend code and the friends you added.","Op de ranglijsten sta je onder een pseudoniem, nooit met je e-mail: je scores, je gegenereerde naam, favoriete personage, meesterschap en collectie, je vriendcode en de vrienden die je toevoegde."
-PRIVACY_P4,"How long: reports you send are kept up to 2 years (screenshots and saves 180 days), crash reports 90 days, scores 400 days, sign-in codes 15 minutes.","Hoe lang: meldingen die je stuurt bewaren we tot 2 jaar (schermafbeeldingen en saves 180 dagen), crashmeldingen 90 dagen, scores 400 dagen, inlogcodes 15 minuten."
-PRIVACY_P5,"Everything is stored in the European Union. We do not sell data, show no ads and do not track you across apps or websites.","Alles staat in de Europese Unie. We verkopen geen gegevens, tonen geen advertenties en volgen je niet over apps of websites."
-PRIVACY_P6,You can download all your data or delete your account here in Settings. Deleting is immediate; anything left is erased within the hour.,"Je kunt hier in Instellingen al je gegevens downloaden of je account verwijderen. Verwijderen gaat meteen; wat er nog over is, wordt binnen een uur gewist."
-PRIVACY_P7,Questions or a request? Mail privacy@steefbeest.nl or use Report a problem (F8).,Vragen of een verzoek? Mail naar privacy@steefbeest.nl of gebruik Probleem melden (F8).
+PRIVACY_P1,"White Glove remembers your progress on this device only. You don't need an account and we never ask for your name, address, e-mail or age.","White Glove onthoudt je voortgang alleen op dit apparaat. Je hoeft geen account te maken en we vragen nooit je naam, adres, e-mail of leeftijd."
+PRIVACY_P2,Online you only play with friends who have your room code. There is no chat and every name comes from a fixed list. Our server only passes the moves on and does not keep them.,Online speel je alleen met vrienden die jouw kamercode hebben. Er is geen chat en elke naam komt uit een vaste lijst. Onze server geeft alleen de zetten door en bewaart ze niet.
+PRIVACY_P3,"If the game gets stuck we send an anonymous crash report (no name, no address, no IP address) so we can fix it. We keep those 90 days.","Loopt het spel vast, dan sturen we een anonieme crashmelding (geen naam, geen adres, geen IP-adres) zodat we het kunnen repareren. Die bewaren we 90 dagen."
+PRIVACY_P4,"With Report a problem you can tell us something. Never write your name, address or phone number in it. We keep reports up to 2 years (screenshots 180 days).","Met Probleem melden kun je ons iets laten weten. Schrijf daar nooit je naam, adres of telefoonnummer in. Meldingen bewaren we tot 2 jaar (schermafbeeldingen 180 dagen)."
+PRIVACY_P5,"No ads, no purchases, no loot boxes, no trackers. Everything is stored in the European Union.","Geen advertenties, geen aankopen, geen lootboxen, geen trackers. Alles staat in de Europese Unie."
+PRIVACY_P6,For parents: Download my data shows everything the game keeps. Deleting the app or the browser data removes it all.,Voor ouders: met Mijn gegevens downloaden zie je alles wat het spel bewaart. De app of de browsergegevens wissen haalt alles weg.
+PRIVACY_P7,Questions or a request? Mail privacy@steefbeest.nl.,Vragen of een verzoek? Mail naar privacy@steefbeest.nl.
 PRIVACY_FULL,Full privacy statement,Volledige privacyverklaring
 CONTROLS_TOUCH,Touch (phone, tablet),Aanraken (telefoon, tablet)
 HUD_CONTROLS_TOUCH,Left thumb: move · hold the orange button: attack · Special above it,Linkerduim: lopen · oranje knop vasthouden: aanvallen · Speciaal erboven
