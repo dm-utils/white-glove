@@ -148,3 +148,5 @@ RESULT_WON,You won!,Gewonnen!
 RESULT_DRAW,A draw!,Gelijkspel!
 RESULT_LOST,Lost. Next time!,Verloren. Volgende keer!
 RESULT_SCORE,Blue {blue} – {orange} Orange,Blauw {blue} – {orange} Oranje
+ONLINE_FRIENDS_TITLE,Play with friends,Spelen met vrienden
+ONLINE_FRIENDS_HINT,Make a room and tell your friends the code · or type their code,Maak een kamer en geef je vrienden de code · of typ hun code

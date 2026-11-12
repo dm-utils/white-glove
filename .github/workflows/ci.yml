@@ -83,7 +83,9 @@ jobs:
       - name: Generated art is up to date (art comes from scripts; never edit the output by hand)
         run: |
           python3 -I tools/art/people.py
-          git diff --exit-code -- assets/people
+          python3 -I tools/art/props.py
+          python3 -I tools/gen_wijk.py > /dev/null
+          git diff --exit-code -- assets/people assets/props data/maps
           python3 -I tools/art/tiles.py --check
 
       - name: Translations — push the source (develop), pull reviewed Final texts into this build
@@ -188,4 +190,28 @@ jobs:
           name: smoke-shots
           path: build/shots
           retention-days: 7
+      - name: Android test app next to the play version (play.<game>.steefbeest.nl/android.apk)
+        if: github.ref == 'refs/heads/develop' && github.event_name != 'pull_request'
+        run: cp build/android/*.apk build/web/android.apk
+      - name: Play version for GitHub Pages (develop only; play.<game>.steefbeest.nl)
+        if: github.ref == 'refs/heads/develop' && github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: build/web
           if-no-files-found: ignore
+
+  # the play version: the release web build of develop on GitHub Pages (free for public repos; files up to 100 MB,
+  # the 38 MB engine is too big for Workers static assets)
+  pages:
+    needs: build
+    if: github.ref == 'refs/heads/develop' && github.event_name != 'pull_request'
+    runs-on: ubuntu-24.04
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4

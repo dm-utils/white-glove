@@ -674,5 +674,7 @@ func _online_step() -> bool:
 	rb.advance()
 	while rb.settled_hash(_next_hash) != -1:
 		net.send({"type": "hash", "t": _next_hash, "h": rb.settled_hash(_next_hash)})
+		if OS.is_debug_build(): # the web smoke compares these between two windows
+			print("online settled tick %d hash %d seat %d of %d rollbacks %d" % [_next_hash, rb.settled_hash(_next_hash), m.human, m.sim.ents.size(), rb.rollbacks])
 		_next_hash += Rollback.HASH_EVERY
 	return true

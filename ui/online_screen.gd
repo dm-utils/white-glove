@@ -1,7 +1,7 @@
 extends Control
-## Playing online (phase 4): the open lobby by default (bots fill after a few seconds), or a friends room with a
-## 4-character code: make one and read the code out, or type a friend's code; anyone in the room presses Start.
-## Debug entry: --scene=online [--room=K7PQ]
+## Playing online (phase 4): friends rooms only (a children's game: no open lobby, the server refuses one too).
+## Make a room and read the code out, or type a friend's code; anyone in the room presses Start (bots fill the rest).
+## Debug entry: --scene=online [--room=K7PQ] [--autostart=2: send Start once that many are in, for the smoke test]
 
 var _client: OnlineClient
 var _status: Label
@@ -12,6 +12,7 @@ var _room := "" # friends room code, "" = the open lobby
 var _code_edit: LineEdit
 var _start: Button
 var _friend_row: HBoxContainer
+var _autostarted := false
 
 
 func _ready() -> void:
@@ -82,11 +83,12 @@ func _ready() -> void:
 	if _room.length() != 4:
 		_room = ""
 	_show_mode()
-
+	_status.text = tr("ONLINE_FRIENDS_HINT")
 	if St33f.client == null:
 		_status.text = tr("ONLINE_OFFLINE")
 		return
-	_queue()
+	if _room != "":
+		_queue()
 
 
 ## (Re)joins the lobby for the current mode; leaving the old queue is just closing its socket.
@@ -113,7 +115,7 @@ func _on_closed(_c: int) -> void:
 
 
 func _show_mode() -> void:
-	_title.text = tr("ONLINE_TITLE") if _room == "" else tr("ONLINE_ROOM_TITLE").format({"code": _room})
+	_title.text = tr("ONLINE_FRIENDS_TITLE") if _room == "" else tr("ONLINE_ROOM_TITLE").format({"code": _room})
 	_start.visible = _room != ""
 	_friend_row.visible = _room == ""
 
@@ -132,6 +134,10 @@ func _on_message(msg: Dictionary) -> void:
 		"waiting":
 			if bool(msg.get("friends", false)):
 				_status.text = tr("ONLINE_ROOM_WAITING").format({"players": int(msg.players)})
+				var auto := int(Boot.args.get("autostart", "0"))
+				if auto > 0 and int(msg.players) >= auto and not _autostarted:
+					_autostarted = true
+					_client.send({"type": "start"})
 			else:
 				_status.text = tr("ONLINE_WAITING").format({"players": int(msg.players), "seconds": int(ceil(float(msg.get("startsInMs", 0)) / 1000.0))})
 		"match":
