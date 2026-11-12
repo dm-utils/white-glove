@@ -18,7 +18,9 @@ func _ready() -> void:
 	box.add_theme_constant_override("separation", 22)
 	add_child(box)
 	box.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	box.add_child(_label(tr("RESULT_PLACE").format({"place": r.place}), UiTheme.heading(200)))
+	box.add_child(_label(headline(r), UiTheme.heading(150)))
+	if r.has("score"):
+		box.add_child(_label(tr("RESULT_SCORE").format({"blue": int(r.score[0]), "orange": int(r.score[1])}), UiTheme.heading(56, UiTheme.INK, 0)))
 	box.add_child(_label(tr("RESULT_POINTS").format({"points": int(r.get("points", 0))}), UiTheme.heading(56, UiTheme.INK, 0)))
 	box.add_child(_label(tr("RESULT_PEARLS").format({"count": outcome.earned}), UiTheme.heading(44, UiTheme.GOLD, 8)))
 	for rew in outcome.unlocked:
@@ -36,6 +38,18 @@ func _ready() -> void:
 	menu.text = tr("RESULT_MENU")
 	menu.pressed.connect(func() -> void: get_tree().change_scene_to_file(Boot.SCENES["menu"]))
 	row.add_child(menu)
+
+
+## Won / draw / lost for a team match; the place for anything else (pure, tested).
+static func headline(r: Dictionary) -> String:
+	match str(r.get("outcome", "")):
+		"won":
+			return TranslationServer.translate("RESULT_WON")
+		"draw":
+			return TranslationServer.translate("RESULT_DRAW")
+		"lost":
+			return TranslationServer.translate("RESULT_LOST")
+	return TranslationServer.translate("RESULT_PLACE").format({"place": r.get("place", 0)})
 
 
 func _label(text: String, settings: LabelSettings) -> Label:

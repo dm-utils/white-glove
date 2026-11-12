@@ -45,6 +45,14 @@ HATS = {
     # netter: a cap turned backwards in the shirt colour
     "netter": lambda c: [f'<path d="M70 58 Q100 30 130 58 Z" fill="{darker(c)}" {S}/>',
                       f'<rect x="120" y="52" width="26" height="9" rx="4" fill="{darker(c)}" {S}/>'],
+    # dog walker: a bobble hat, and the dog on a lead next to them
+    "dogwalker": lambda c: [f'<path d="M68 62 Q68 34 100 34 Q132 34 132 62 Z" fill="{darker(c)}" {S}/>',
+                            f'<circle cx="100" cy="30" r="9" fill="#FFFFFF" {S}/>',
+                            f'<path d="M54 152 Q36 160 34 176" fill="none" stroke="#E8503A" stroke-width="4"/>',
+                            f'<ellipse cx="28" cy="190" rx="22" ry="13" fill="#C08A4E" stroke="{INK}" stroke-width="5"/>',
+                            f'<circle cx="34" cy="174" r="12" fill="#C08A4E" stroke="{INK}" stroke-width="5"/>',
+                            f'<ellipse cx="28" cy="168" rx="5" ry="9" fill="#8A5A2E" stroke="{INK}" stroke-width="3"/>',
+                            f'<circle cx="38" cy="172" r="2.5" fill="{INK}"/>'],
 }
 
 

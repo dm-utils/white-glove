@@ -81,6 +81,16 @@ def main() -> int:
         if canvas_hash(page) == before:
             failures.append("Play did not open the game screen")
 
+        # the match itself: walk a bit, act, and look at it after a few seconds of bots playing
+        load(f"{base}?scene=game&seed=777", "game")
+        page.wait_for_timeout(1500)
+        page.keyboard.down("d")
+        page.wait_for_timeout(1500)
+        page.keyboard.up("d")
+        page.keyboard.press("Space")
+        page.wait_for_timeout(6000)
+        shot(page, "web-game-play")
+
         load(f"{base}?scene=settings", "settings")
         page.wait_for_timeout(2000)
         shot(page, "web-settings")

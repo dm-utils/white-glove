@@ -129,4 +129,22 @@ CHAR_RUNNER,Runner,Renner
 CHAR_NETTER,Net thrower,Netwerper
 CHAR_WHISTLER,Whistler,Fluiter
 CHAR_DOGWALKER,Dog walker,Hondenbaas
-GAME_SOON,The clean-up game is coming soon,Het opruimspel komt eraan
+HUD_YOU,You,Jij
+CLEAN_START,Clean up the neighbourhood!,Ruim de wijk op!
+CLEAN_BLUE,Blue,Blauw
+CLEAN_ORANGE,Orange,Oranje
+CLEAN_FULL,Hands full: to a bin!,Handen vol: naar een bak!
+CLEAN_CAUGHT,Caught! Now they help your team,Gevangen! Nu helpt hij jouw team
+CLEAN_LAST,10 seconds left!,Nog 10 seconden!
+CLEAN_RIGHT_BIN,Right bin!,Goede bak!
+CLEAN_WRONG_BIN,Wrong bin: fewer points,Verkeerde bak: minder punten
+CLEAN_TRICK_RUNNER,Sprint,Sprint
+CLEAN_TRICK_NETTER,Net,Net
+CLEAN_TRICK_WHISTLER,Whistle,Fluit
+CLEAN_TRICK_DOGWALKER,Dog,Hond
+CLEAN_CONTROLS_KEYS,WASD: walk · Space: catch / pick up / bin · Shift: trick,WASD: lopen · Spatie: vangen / oppakken / weggooien · Shift: trucje
+CLEAN_CONTROLS_TOUCH,Left thumb: walk · orange button: catch / pick up / bin · trick above it,Linkerduim: lopen · oranje knop: vangen / oppakken / weggooien · trucje erboven
+RESULT_WON,You won!,Gewonnen!
+RESULT_DRAW,A draw!,Gelijkspel!
+RESULT_LOST,Lost. Next time!,Verloren. Volgende keer!
+RESULT_SCORE,Blue {blue} – {orange} Orange,Blauw {blue} – {orange} Oranje

@@ -31,6 +31,7 @@ func _ready() -> void:
 	test_characters_and_result()
 	test_room_codes()
 	test_clean_sim()
+	await test_clean_view()
 	print("tests: %d passed, %d failed" % [_passed, _failed])
 	get_tree().quit(1 if _failed > 0 else 0)
 
@@ -585,3 +586,24 @@ func test_clean_sim() -> void:
 	print("clean: light balance, 6 matches: blue %.0f %%, litter left %.0f %%" % [bal.blue_pct, bal.left_pct])
 	check(bal.left_pct < 40.0, "bots keep the street fairly clean (%.0f %% left)" % bal.left_pct)
 
+
+## The match screen starts, plays 3 s against bots and shows what the sim has (phase 3).
+func test_clean_view() -> void:
+	Boot.args["seed"] = "4242"
+	var v: Node = load("res://view/clean_view.tscn").instantiate()
+	add_child(v)
+	await get_tree().process_frame
+	for i in 90:
+		v._process(1.0 / 30.0)
+	var s: CleanSim = v.m.sim
+	check(s.tick >= 85, "the match screen steps the sim (tick %d)" % s.tick)
+	var shown: int = v._litter.filter(func(sp: Sprite2D) -> bool: return sp.visible).size()
+	check(shown == s.litter.size() and v._heroes.size() == s.ents.size() and v._crooks.size() == s.crooks.size(), "one sprite per hero, crook and piece of litter")
+	check(v.actors.get_children().size() >= s.stations.size() * 3 + s.ents.size(), "bins and heroes are on screen")
+	var h: CleanSim.Hero = s.ents[0]
+	var aim: int = v.trick_aim(s, h)
+	check(aim >= 0 and aim < Fx.ANGLES, "the trick always gets an aim")
+	v.queue_free()
+	Boot.args.erase("seed")
+	var R := preload("res://ui/result_screen.gd")
+	check(R.headline({"outcome": "won"}) == TranslationServer.translate("RESULT_WON") and R.headline({"place": 2}).contains("2"), "the result says won/draw/lost, or the place")
