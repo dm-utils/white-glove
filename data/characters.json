@@ -1,6 +1,7 @@
 {
   "version": 1,
-  "_note": "White Glove heroes (functional design 5). Art from tools/art/people.py.",
+  "_note": "White Glove heroes (functional design 5). Art from tools/art/people.py. team_colors: shirt colour in a match (blue, orange), same as TEAM_COLORS in view/clean_view.gd.",
+  "team_colors": ["3F8CFF", "FF8A3D"],
   "characters": [
     {
       "id": "runner",

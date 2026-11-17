@@ -2,7 +2,9 @@
 as the other game art (thick ink outline, flat colours, one highlight). The view bobs and tilts them while walking.
 
 Every SVG is 200 x 240 with the feet at (100, 200): the view places that point on the character's position.
-Colours come from data/characters.json (shirt) so a character's colour matches its HUD colour.
+Colours come from data/characters.json: <id>.svg wears the hero's own colour (menus, matches its HUD colour);
+<id>_blue.svg and <id>_orange.svg wear the team colour in a match. Headwear (and the dog) keep the hero's own colour,
+so a hero stays recognisable in either team.
 Usage: python -I tools/art/people.py
 """
 import json
@@ -56,16 +58,26 @@ HATS = {
 }
 
 
+TEAMS = ("blue", "orange")
+
+
+def write(name: str, parts: list) -> None:
+    svg = '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="240" viewBox="0 0 200 240">' + "".join(parts) + "</svg>\n"
+    with open(os.path.join(OUT, f"{name}.svg"), "w", encoding="utf-8", newline="\n") as fh:
+        fh.write(svg)
+
+
 def main() -> None:
-    chars = json.load(open(os.path.join(ROOT, "data", "characters.json"), encoding="utf-8"))["characters"]
+    data = json.load(open(os.path.join(ROOT, "data", "characters.json"), encoding="utf-8"))
+    chars = data["characters"]
     os.makedirs(OUT, exist_ok=True)
     for c in chars:
-        shirt = "#" + c["color"]
-        parts = body(shirt) + HATS.get(c["id"], lambda _: [])(shirt)
-        svg = '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="240" viewBox="0 0 200 240">' + "".join(parts) + "</svg>\n"
-        with open(os.path.join(OUT, f"{c['id']}.svg"), "w", encoding="utf-8", newline="\n") as fh:
-            fh.write(svg)
-    print("wrote", len(chars), "characters to", os.path.normpath(OUT))
+        own = "#" + c["color"]
+        hat = HATS.get(c["id"], lambda _: [])(own)
+        write(c["id"], body(own) + hat)
+        for team, color in zip(TEAMS, data["team_colors"]):
+            write(f"{c['id']}_{team}", body("#" + color) + hat)
+    print("wrote", len(chars), "characters x", 1 + len(TEAMS), "shirts to", os.path.normpath(OUT))
 
 
 if __name__ == "__main__":

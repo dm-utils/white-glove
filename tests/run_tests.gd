@@ -378,6 +378,15 @@ func files_under(dir: String, exts: Array) -> Array:
 func test_characters_and_result() -> void:
 	var list := Content.characters()
 	check(list.size() >= 3 and list.all(func(c): return c.has("id") and c.has("name_key") and c.has("color")), "characters.json: at least 3 with id, name, colour")
+	var view_script: GDScript = load("res://view/clean_view.gd")
+	var teams: Array = Content.load_json("res://data/characters.json").get("team_colors", [])
+	check(teams.size() == 2 and Color(str(teams[0])) == view_script.TEAM_COLORS[0] and Color(str(teams[1])) == view_script.TEAM_COLORS[1], "team shirt colours in characters.json match the team colours in the view")
+	var no_shirt := []
+	for c in list:
+		for t in 2:
+			if not ResourceLoader.exists(view_script.person_sprite(str(c.id), t)):
+				no_shirt.append(view_script.person_sprite(str(c.id), t))
+	check(no_shirt.is_empty(), "every hero has a shirt in each team colour (missing: %s)" % ", ".join(no_shirt))
 	var backend = Platform.backend
 	var saved_path: String = backend.profile_path
 	backend.profile_path = "user://test_result_profile.json"

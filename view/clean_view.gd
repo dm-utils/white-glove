@@ -15,7 +15,8 @@ const LITTER_SCALE := 1.0 # the pieces fill ~60 of 200 px: ~60 px on screen, >= 
 const BIN_SCALE := 0.62
 const KINDS := ["paper", "plastic", "rest"]
 const KIND_COLORS := [Color("2F5DA8"), Color("F2C230"), Color("7A828C")] # as the bins (tools/art/props.py)
-const TEAM_COLORS := [Color("3F8CFF"), Color("FF8A3D")]
+const TEAM_COLORS := [Color("3F8CFF"), Color("FF8A3D")] # also in data/characters.json team_colors (tools/art/people.py)
+const TEAM_NAMES := ["blue", "orange"]
 const INK := Color("2B3A4A")
 const ROOFS := [Color("C4553F"), Color("D9825B"), Color("8E9BB0"), Color("6F9E7F")]
 const WALL := Color("F1E3C8")
@@ -100,7 +101,7 @@ func _ready() -> void:
 			b.position = Vector2(int(st[0]) + k * CleanSim.TILE, int(st[1])) * PX
 			actors.add_child(b)
 	for e in s.ents:
-		var c := _sprite_file("res://assets/people/%s.svg" % str(s.characters[e.id].get("id", "runner")), Vector2(0, -80), PERSON_SCALE)
+		var c := _sprite_file(person_sprite(str(s.characters[e.id].get("id", "runner")), int(e.team)), Vector2(0, -80), PERSON_SCALE)
 		actors.add_child(c)
 		_heroes[e.id] = c
 		_prev["h%d" % e.id] = Vector2(e.x, e.y)
@@ -132,6 +133,11 @@ func _texture(path: String) -> Texture2D:
 
 func _sprite(prop: String, offset: Vector2, k: float) -> Sprite2D:
 	return _sprite_file("res://assets/props/%s.svg" % prop, offset, k)
+
+
+## In a match a hero wears the team colour; the headwear (and the dog) keep the hero recognisable.
+static func person_sprite(id: String, team: int) -> String:
+	return "res://assets/people/%s_%s.svg" % [id, TEAM_NAMES[clampi(team, 0, TEAM_NAMES.size() - 1)]]
 
 
 func _sprite_file(path: String, offset: Vector2, k: float) -> Sprite2D:
