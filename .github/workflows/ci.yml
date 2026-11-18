@@ -154,7 +154,7 @@ jobs:
           export GODOT_ANDROID_KEYSTORE_DEBUG_PATH="$RUNNER_TEMP/debug.keystore"
           export GODOT_ANDROID_KEYSTORE_DEBUG_USER=androiddebugkey
           export GODOT_ANDROID_KEYSTORE_DEBUG_PASSWORD=android
-          timeout 600 godot --headless --path . --export-debug "Android" build/android/whiteglove-debug.apk
+          timeout 600 godot --headless --path . --export-debug "Android" build/android/white-glove-debug.apk
           ls -la build/android
 
       - name: Scan build snapshot for secrets
